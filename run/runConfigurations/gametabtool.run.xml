@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="gametabtool" type="GoApplicationRunConfiguration" factoryName="Go Application">
-    <module name="gametabtool" />
+    <module name="GameTabTool" />
     <working_directory value="$PROJECT_DIR$/bin" />
     <parameters value="-help" />
     <kind value="FILE" />

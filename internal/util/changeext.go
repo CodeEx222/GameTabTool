@@ -34,6 +34,7 @@ func ConvertNumToChar(num int) string {
 	return cols
 }
 
+// ConvertCharToNum 将 Excel 格式的列名转换为数字。
 func ConvertCharToNum(col string) (int, error) {
 	if len(col) == 0 {
 		return 0, nil
@@ -60,6 +61,42 @@ func ConvertCharToNum(col string) (int, error) {
 		num = num*26 + numIndex
 	}
 	return num, nil
+}
+
+// ConvertExcelCellToNumPos
+//
+//	@Description: 将 Excel 单元格位置转换为数字坐标
+//	@param cellPos string  单元格位置
+//	@return bool 是否成功
+//	@return int x 坐标 列坐标 从1开始
+//	@return int y 坐标 行坐标 从1开始
+func ConvertExcelCellToNumPos(cellPos string) (bool, int, int) {
+
+	if cellPos == "" {
+		return false, 0, 0
+	}
+
+	checkCellAlp := ""
+	checkCellNum := ""
+
+	for _, checkChar := range cellPos {
+
+		if checkChar >= 'A' && checkChar <= 'Z' {
+			checkCellAlp += string(checkChar)
+		} else {
+			checkCellNum += string(checkChar)
+		}
+	}
+
+	// 这里的非法字符已经被过滤掉了 所以不需要再判断err
+	x, _ := ConvertCharToNum(checkCellAlp)
+
+	y, err := strconv.Atoi(checkCellNum)
+	if err != nil {
+		return false, 0, 0
+	}
+
+	return true, x, y
 }
 
 const (

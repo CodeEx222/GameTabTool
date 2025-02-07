@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"fmt"
 	"gametabtool/internal/report"
 	"gametabtool/internal/util"
 	"github.com/xuri/excelize/v2"
@@ -140,24 +139,15 @@ func newXlsxSheet(SheetName string, ExcelFile *excelize.File) (TableSheet, bool)
 	for _, cellValue := range mergeCells {
 		checkStr := cellValue[0]
 		checkStrArray := strings.Split(checkStr, ":")
-		checkStrEnd := checkStrArray[1]
 
-		checkStrAlp := ""
-		checkStrNum := ""
-		for _, c := range checkStrEnd {
-			if c >= 'A' && c <= 'Z' {
-				checkStrAlp += string(c)
-			} else {
-				checkStrNum += string(c)
+		checkStartResult, _, y1 := util.ConvertExcelCellToNumPos(checkStrArray[0])
+		checkEndResult, x2, _ := util.ConvertExcelCellToNumPos(checkStrArray[1])
+
+		if checkStartResult && checkEndResult {
+			// 有合并单元格的情况下，取最大列数, 默认第一行的列数
+			if y1 == 1 && x2 > MaxColValue {
+				MaxColValue = x2
 			}
-		}
-
-		if checkStrNum == "1" {
-			ColNum := util.ConvertNumToChar(checkStrAlp)
-			if ColNum > MaxColValue {
-				MaxColValue = ColNum
-			}
-
 		}
 
 	}
@@ -165,7 +155,7 @@ func newXlsxSheet(SheetName string, ExcelFile *excelize.File) (TableSheet, bool)
 	return &XlsxSheet{
 		SheetName: SheetName,
 		ExcelFile: ExcelFile,
-		MaxCol:    len(rows[0]),
+		MaxCol:    MaxColValue,
 		MaxRows:   len(rows),
 	}, true
 }

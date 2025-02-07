@@ -1,7 +1,7 @@
 package helper
 
 import (
-	_ "gametabtool/internal/test_init"
+	_ "gametabtool/test_init"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"
@@ -23,16 +23,5 @@ func TestExcelFileLoad(t *testing.T) {
 	assert.EqualValues(t, "Sheet2", sheet[1].Name(), "sheet2 名字不对")
 
 	assert.Equal(t, 3, sheet[0].MaxColumn(), "sheet1 列数不对")
-	assert.Equal(t, 5, sheet[1].MaxColumn(), "sheet2 列数不对")
-
-	t.Log("sheet[1].MaxColumn()=", sheet[1].MaxColumn())
-	for i := 0; i < 10; i++ {
-		valueStr := ReadSheetRow(sheet[1], i)
-		t.Log("valueStr=", valueStr)
-	}
-
-	if sheet[1].MaxColumn() != 5 {
-		t.Error("TestExcelFileLoad failed")
-	}
-
+	assert.Equal(t, 8, sheet[1].MaxColumn(), "sheet2 列数不对")
 }
