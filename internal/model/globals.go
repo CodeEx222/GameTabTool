@@ -5,6 +5,8 @@ import "gametabtool/internal/helper"
 type Globals struct {
 	// ExcelDataPath excel文件路径
 	ExcelDataPath string
+	// IndexDataPath 索引文件路径
+	IndexDataPath string
 
 	IndexGetter helper.FileGetter // 索引文件获取器
 	TableGetter helper.FileGetter // 其他文件获取器

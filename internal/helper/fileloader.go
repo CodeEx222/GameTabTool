@@ -16,7 +16,6 @@ type FileLoader struct {
 	inputFile  []string
 
 	syncLoad bool
-	cacheDir string
 }
 
 func (selfObj *FileLoader) AddFile(filename string) {
@@ -33,7 +32,7 @@ func (selfObj *FileLoader) Commit() {
 
 		go func(fileName string) {
 
-			selfObj.fileByName.Store(fileName, loadFileByExt(fileName, selfObj.cacheDir))
+			selfObj.fileByName.Store(fileName, loadFileByExt(fileName))
 
 			task.Done()
 
@@ -46,13 +45,13 @@ func (selfObj *FileLoader) Commit() {
 	selfObj.inputFile = selfObj.inputFile[0:0]
 }
 
-func loadFileByExt(filename string, cacheDir string) interface{} {
+func loadFileByExt(filename string) interface{} {
 
 	var tabFile TableFile
 	switch filepath.Ext(filename) {
 	case ".xlsx", ".xls", ".xlsm":
 
-		tabFile = NewXlsxFile(cacheDir)
+		tabFile = NewXlsxFile()
 
 		err := tabFile.Load(filename)
 
@@ -71,7 +70,7 @@ func (selfObj *FileLoader) GetFile(filename string) (TableFile, error) {
 
 	if selfObj.syncLoad {
 
-		result := loadFileByExt(filename, selfObj.cacheDir)
+		result := loadFileByExt(filename)
 		if err, ok := result.(error); ok {
 			return nil, err
 		}
@@ -94,9 +93,8 @@ func (selfObj *FileLoader) GetFile(filename string) (TableFile, error) {
 
 }
 
-func NewFileLoader(syncLoad bool, cacheDir string) *FileLoader {
+func NewFileLoader(syncLoad bool) *FileLoader {
 	return &FileLoader{
 		syncLoad: syncLoad,
-		cacheDir: cacheDir,
 	}
 }

@@ -1,5 +1,20 @@
 package model
 
+type ExcelDataType int32
+
+const (
+	ExcelDataType_None   ExcelDataType = iota
+	ExcelDataType_Define ExcelDataType = 1 // 定义类型
+	ExcelDataType_Data   ExcelDataType = 2 // 数据类型
+)
+
+type ExcelData struct {
+	Kind         ExcelDataType // 类型
+	DataTypeName string        // 表名
+	FileName     string        // 文件名
+
+}
+
 type KeyWord string
 
 const (

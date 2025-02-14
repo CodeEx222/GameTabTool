@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"gametabtool/internal/FlagParam"
 	"gametabtool/internal/entry"
 )
@@ -9,10 +8,10 @@ import (
 func main() {
 
 	// 处理所有输入参数
-	flag.Parse()
+	FlagParam.Parse()
 
 	// 版本
-	if *FlagParam.ParamVersion {
+	if FlagParam.ParamVersion {
 		FlagParam.BuildInfoPrint()
 		return
 	}

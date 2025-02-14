@@ -9,14 +9,13 @@ import (
 )
 
 type XlsxFile struct {
+	// 读取excel对象
 	file *excelize.File
-
-	sheets   []TableSheet
-	cacheDir string
+	// excel文件中的所有sheet
+	sheets []TableSheet
 }
 
 func (selfObj *XlsxFile) Sheets() (ret []TableSheet) {
-
 	return selfObj.sheets
 }
 
@@ -28,13 +27,9 @@ func (selfObj *XlsxFile) Load(filename string) (err error) {
 
 	var file *excelize.File
 
-	if selfObj.cacheDir == "" {
-		file, err = excelize.OpenFile(filename)
-		if err != nil {
-			return err
-		}
-	} else {
-		panic("不支持cache")
+	file, err = excelize.OpenFile(filename)
+	if err != nil {
+		return err
 	}
 
 	selfObj.FromXFile(file)
@@ -57,11 +52,9 @@ func (selfObj *XlsxFile) FromXFile(file *excelize.File) {
 	}
 }
 
-func NewXlsxFile(cacheDir string) TableFile {
+func NewXlsxFile() TableFile {
 
-	self := &XlsxFile{
-		cacheDir: cacheDir,
-	}
+	self := &XlsxFile{}
 
 	return self
 }
@@ -129,10 +122,8 @@ func newXlsxSheet(SheetName string, ExcelFile *excelize.File) (TableSheet, bool)
 		return nil, false
 	}
 
-	mergeCells, err := ExcelFile.GetMergeCells(SheetName)
-	if err != nil {
-		panic(err)
-	}
+	// err 可以忽略 前面 ExcelFile.GetRows 已经判断过了
+	mergeCells, _ := ExcelFile.GetMergeCells(SheetName)
 
 	MaxColValue := len(rows[0])
 
