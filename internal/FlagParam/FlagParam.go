@@ -26,6 +26,7 @@ var (
 
 	// ParamLanguage 输出日志语言
 	ParamLanguage string
+	LanguageIndex int = 0 // 0: en, 1: zh
 )
 
 var (
@@ -48,7 +49,7 @@ func Parse() {
 	}
 
 	// 检查语言是否支持
-	langIndex := 0
+	LanguageIndex = 0
 	if ParamLanguage != "en" && ParamLanguage != "zh" {
 		fmt.Printf("Unsupported language: %s, defaulting to 'en'\n", ParamLanguage)
 		ParamLanguage = "en"
@@ -56,12 +57,12 @@ func Parse() {
 
 	// 根据语言包设置参数描述
 	if ParamLanguage == "zh" {
-		langIndex = 1
+		LanguageIndex = 1
 	}
 
 	// 自定义 Usage 函数
 	flag.Usage = func() {
-		_, err := fmt.Fprintf(os.Stderr, langPacks["usage"][langIndex], os.Args[0])
+		_, err := fmt.Fprintf(os.Stderr, langPacks["usage"][LanguageIndex], os.Args[0])
 		if err != nil {
 			return
 		}
@@ -69,11 +70,11 @@ func Parse() {
 	}
 
 	// 根据语言包设置参数描述
-	flag.StringVar(&ParamExcelResPath, "res_path", "", langPacks["res_path"][langIndex])
-	flag.StringVar(&ParamLanguage, "lan", "en", langPacks["lan"][langIndex])
-	flag.BoolVar(&ParamVersion, "version", false, langPacks["version"][langIndex])
+	flag.StringVar(&ParamExcelResPath, "res_path", "", langPacks["res_path"][LanguageIndex])
+	flag.StringVar(&ParamLanguage, "lan", "en", langPacks["lan"][LanguageIndex])
+	flag.BoolVar(&ParamVersion, "version", false, langPacks["version"][LanguageIndex])
 
-	flag.StringVar(&ParamIndexName, "index", "", langPacks["index"][langIndex])
+	flag.StringVar(&ParamIndexName, "index", "", langPacks["index"][LanguageIndex])
 
 	// 解析命令行参数
 	flag.Parse()

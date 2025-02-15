@@ -2,6 +2,7 @@ package report
 
 type ErrorLanguage struct {
 	CHS string
+	EN  string
 }
 
 type ErrorID string
@@ -12,6 +13,6 @@ var (
 
 var (
 	ErrorByID = map[ErrorID]*ErrorLanguage{
-		UnknownInputFileExtension: {CHS: "未知的输入文件扩展名"},
+		UnknownInputFileExtension: {CHS: "未知的输入文件扩展名", EN: "Unknown input file extension"},
 	}
 )

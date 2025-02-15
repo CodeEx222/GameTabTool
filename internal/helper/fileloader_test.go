@@ -70,12 +70,17 @@ func TestFileLoader_GetFile_NotFound(t *testing.T) {
 
 func TestLoadFileByExt(t *testing.T) {
 	projectDir, _ := os.Getwd()
-	result := loadFileByExt(projectDir + "/bin/testdata/testRead.xlsx")
-	assert.NotNil(t, result, "Result should not be nil")
-	_, ok := result.(TableFile)
-	assert.True(t, ok, "Result should be of type TableFile")
+	//result := loadFileByExt(projectDir + "/bin/testdata/testRead.xlsx")
+	//assert.NotNil(t, result, "Result should not be nil")
+	//_, ok := result.(TableFile)
+	//assert.True(t, ok, "Result should be of type TableFile")
 
-	assert.Fail(t, "Need to test the case when the file extension is not supported")
+	//assert.Panics(t, func() {
+	//	loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
+	//}, "TableError. Unknown input file extension")
+
+	loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
+	assert.FailNow(t, "TableError.UnknownInputFileExtension Unknown input file extension | F:\\project\\GameTabTool/bin/testdata/testRead.aaa")
 }
 
 func TestNewFileLoader(t *testing.T) {

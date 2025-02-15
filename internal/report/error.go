@@ -2,6 +2,7 @@ package report
 
 import (
 	"fmt"
+	"gametabtool/internal/FlagParam"
 	"strings"
 )
 
@@ -14,7 +15,11 @@ type TableError struct {
 func getErrorDesc(id ErrorID) string {
 
 	if lan, ok := ErrorByID[id]; ok {
-		return lan.CHS
+		if FlagParam.LanguageIndex == 0 {
+			return lan.EN
+		} else if FlagParam.LanguageIndex == 1 {
+			return lan.CHS
+		}
 	}
 
 	return ""
@@ -24,11 +29,19 @@ func (SelfObj *TableError) Error() string {
 
 	var sb strings.Builder
 
-	sb.WriteString("TableError.")
+	if FlagParam.LanguageIndex == 0 {
+		sb.WriteString("TableError.")
+	} else if FlagParam.LanguageIndex == 1 {
+		sb.WriteString("表错误.")
+	}
+
 	sb.WriteString(string(SelfObj.ID))
 	sb.WriteString(" ")
 	sb.WriteString(getErrorDesc(SelfObj.ID))
-	sb.WriteString(" | ")
+
+	if len(SelfObj.context) > 0 {
+		sb.WriteString(" | ")
+	}
 
 	for index, c := range SelfObj.context {
 		if index > 0 {
