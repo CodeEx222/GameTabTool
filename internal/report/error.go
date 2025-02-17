@@ -56,7 +56,7 @@ func (SelfObj *TableError) Error() string {
 
 func LogTableError(id ErrorID, context ...interface{}) {
 
-	ToolsLog.Fatal(&TableError{
+	LogFatal(&TableError{
 		ID:      id,
 		context: context,
 	})

@@ -79,8 +79,13 @@ func TestLoadFileByExt(t *testing.T) {
 	//	loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
 	//}, "TableError. Unknown input file extension")
 
-	loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
-	assert.FailNow(t, "TableError.UnknownInputFileExtension Unknown input file extension | F:\\project\\GameTabTool/bin/testdata/testRead.aaa")
+	// 使用闭包传递参数
+
+	assert.Panics(t, func() {
+		loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
+	}, "")
+
+	//assert.FailNow(t, "TableError.UnknownInputFileExtension Unknown input file extension | F:\\project\\GameTabTool/bin/testdata/testRead.aaa")
 }
 
 func TestNewFileLoader(t *testing.T) {
