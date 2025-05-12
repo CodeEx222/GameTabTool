@@ -103,3 +103,26 @@ func TestGeneralNumericScientific(t *testing.T) {
 	assert.Equal(t, "1.2E+11", numValue, "GeneralNumericScientific failed")
 
 }
+
+func TestCheckStringType(t *testing.T) {
+
+	// 测试匹配的情况
+	result := CheckStringType("##example", "example")
+	assert.True(t, result, "CheckStringType failed for matching case")
+
+	// 测试不匹配的情况
+	result = CheckStringType("##example", "different")
+	assert.False(t, result, "CheckStringType failed for non-matching case")
+
+	// 测试没有前缀的情况
+	result = CheckStringType("example", "example")
+	assert.False(t, result, "CheckStringType failed for missing prefix case")
+
+	// 测试空字符串的情况
+	result = CheckStringType("", "example")
+	assert.False(t, result, "CheckStringType failed for empty checkString")
+
+	result = CheckStringType("##example", "")
+	assert.False(t, result, "CheckStringType failed for empty compareStr")
+
+}

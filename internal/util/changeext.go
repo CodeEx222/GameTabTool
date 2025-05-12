@@ -129,3 +129,14 @@ func GeneralNumericScientific(value string, allowScientific bool) (string, error
 	// configured or disabled.
 	return strconv.FormatFloat(f, 'f', -1, 64), nil
 }
+
+func CheckStringType(checkString string, compareStr string) bool {
+
+	isType := strings.HasPrefix(checkString, "##")
+	if !isType {
+		return false
+	}
+
+	tempString := strings.TrimPrefix(checkString, "##")
+	return strings.Compare(tempString, compareStr) == 0
+}

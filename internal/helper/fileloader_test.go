@@ -2,6 +2,7 @@ package helper
 
 import (
 	"errors"
+	"gametabtool/internal/FlagParam"
 	_ "gametabtool/test_init"
 	"github.com/stretchr/testify/assert"
 	"os"
@@ -70,20 +71,26 @@ func TestFileLoader_GetFile_NotFound(t *testing.T) {
 
 func TestLoadFileByExt(t *testing.T) {
 	projectDir, _ := os.Getwd()
-	//result := loadFileByExt(projectDir + "/bin/testdata/testRead.xlsx")
-	//assert.NotNil(t, result, "Result should not be nil")
-	//_, ok := result.(TableFile)
-	//assert.True(t, ok, "Result should be of type TableFile")
+	result := loadFileByExt(projectDir + "/bin/testdata/testRead.xlsx")
+	assert.NotNil(t, result, "Result should not be nil")
+	_, ok := result.(TableFile)
+	assert.True(t, ok, "Result should be of type TableFile")
 
-	//assert.Panics(t, func() {
-	//	loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
-	//}, "TableError. Unknown input file extension")
-
+	oldLanguageIndex := FlagParam.LanguageIndex
+	FlagParam.LanguageIndex = 1
 	// 使用闭包传递参数
-
 	assert.Panics(t, func() {
-		loadFileByExt(projectDir + "/bin/testdata/testRead.aaa")
+		loadFileByExt(projectDir + "/bin/testdata/testRead.zh")
 	}, "")
+	FlagParam.LanguageIndex = oldLanguageIndex
+
+	oldLanguageIndex = FlagParam.LanguageIndex
+	FlagParam.LanguageIndex = 0
+	// 使用闭包传递参数
+	assert.Panics(t, func() {
+		loadFileByExt(projectDir + "/bin/testdata/testRead.en")
+	}, "")
+	FlagParam.LanguageIndex = oldLanguageIndex
 
 	//assert.FailNow(t, "TableError.UnknownInputFileExtension Unknown input file extension | F:\\project\\GameTabTool/bin/testdata/testRead.aaa")
 }
@@ -92,4 +99,19 @@ func TestNewFileLoader(t *testing.T) {
 	loader := NewFileLoader(true)
 	assert.NotNil(t, loader, "Loader should not be nil")
 	assert.True(t, loader.syncLoad, "syncLoad should be true")
+}
+
+func TestNewFileLoaderError(t *testing.T) {
+	projectDir, _ := os.Getwd()
+	loader := NewFileLoader(false)
+	loader.AddFile(projectDir + "/bin/testdata/errorFile.xlsx")
+	loader.Commit()
+	_, err := loader.GetFile(projectDir + "/bin/testdata/errorFile.xlsx")
+	assert.NotNil(t, err, "Error should not be nil")
+
+	loaderSync := NewFileLoader(true)
+	loaderSync.AddFile(projectDir + "/bin/testdata/errorFile.xlsx")
+	loaderSync.Commit()
+	_, errSync := loaderSync.GetFile(projectDir + "/bin/testdata/errorFile.xlsx")
+	assert.NotNil(t, errSync, "Error should not be nil")
 }

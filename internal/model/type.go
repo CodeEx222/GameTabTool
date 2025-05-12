@@ -61,6 +61,35 @@ type TypeDefine struct {
 	MakeIndex     bool      // 索引
 	Tags          []string  // 标记
 	IsBuiltin     bool      // ",omitempty"`
-	UeType        string    // UE类型"`
 	DefaultValue  string    // 默认值"`
+}
+
+// InitBuiltinTypes 内建表的列功能
+func InitBuiltinTypes() {
+
+	GlobalData.IndexDefine = []*TypeDefine{
+		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表类型", FieldName: "tableType", FieldType: "string"},
+		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表文件名", FieldName: "tableFileName", FieldType: "string"},
+		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "模式", FieldName: "group", FieldType: "string"},
+		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "注释", FieldName: "comment", FieldType: "string"},
+	}
+
+	//	for _, tf := range []*TypeDefine{
+	//
+	//		// 类型表类型
+	//		{Kind: TypeUsage_Enum, ObjectType: "TypeUsage", Name: "", FieldName: "None", FieldType: "int", Value: "0"},
+	//
+	//		// 索引表类型
+	//		{Kind: TypeUsage_HeaderStruct, ObjectType: "TypeUsage", Name: "", FieldName: "None", FieldType: "int", Value: "0"},
+	//		{Kind: TypeUsage_HeaderStruct, ObjectType: "TypeUsage", Name: "", FieldName: "None", FieldType: "int", Value: "0"},
+	//		{Kind: TypeUsage_HeaderStruct, ObjectType: "TypeUsage", Name: "", FieldName: "None", FieldType: "int", Value: "0"},
+	//		{Kind: TypeUsage_HeaderStruct, ObjectType: "TypeUsage", Name: "", FieldName: "None", FieldType: "int", Value: "0"},
+	//
+	//		// KV表类型
+	//	} {
+	//		tf.IsBuiltin = true
+	//
+	//		typeTab.AddField(tf, nil, 0)
+	//	}
+	//}
 }
