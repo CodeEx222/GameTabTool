@@ -46,4 +46,8 @@ func TestA1toR1C1(t *testing.T) {
 		t.Fatal("AAA20")
 	}
 
+	if R1C1ToA1(20, 0) != "20" {
+		t.Fatal("AAA20")
+	}
+
 }

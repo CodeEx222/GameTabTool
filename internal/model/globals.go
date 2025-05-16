@@ -11,7 +11,7 @@ type Globals struct {
 	IndexGetter helper.FileGetter // 索引文件获取器
 	TableGetter helper.FileGetter // 其他文件获取器
 
-	IndexDefine []*TypeDefine // 输入的索引文件
+	IndexDefine []*IndexDefine // 输入的索引文件
 }
 
 func NewGlobals() *Globals {

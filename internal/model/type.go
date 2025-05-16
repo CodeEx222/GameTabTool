@@ -67,12 +67,12 @@ type TypeDefine struct {
 // InitBuiltinTypes 内建表的列功能
 func InitBuiltinTypes() {
 
-	GlobalData.IndexDefine = []*TypeDefine{
-		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表类型", FieldName: "tableType", FieldType: "string"},
-		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表文件名", FieldName: "tableFileName", FieldType: "string"},
-		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "模式", FieldName: "group", FieldType: "string"},
-		{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "注释", FieldName: "comment", FieldType: "string"},
-	}
+	//GlobalData.IndexDefine = []*TypeDefine{
+	//	{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表类型", FieldName: "tableType", FieldType: "string"},
+	//	{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "表文件名", FieldName: "tableFileName", FieldType: "string"},
+	//	{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "模式", FieldName: "group", FieldType: "string"},
+	//	{Kind: TypeUsage_HeaderStruct, ObjectType: "IndexDefine", Name: "注释", FieldName: "comment", FieldType: "string"},
+	//}
 
 	//	for _, tf := range []*TypeDefine{
 	//

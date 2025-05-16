@@ -124,5 +124,22 @@ func TestCheckStringType(t *testing.T) {
 
 	result = CheckStringType("##example", "")
 	assert.False(t, result, "CheckStringType failed for empty compareStr")
+}
 
+func TestCheckValueType(t *testing.T) {
+	// 测试以 "##" 开头的情况
+	result := CheckValueType("##example")
+	assert.False(t, result, "CheckValueType failed for string starting with '##'")
+
+	// 测试以 "#" 开头的情况
+	result = CheckValueType("#example")
+	assert.True(t, result, "CheckValueType failed for string starting with '#'")
+
+	// 测试普通字符串的情况
+	result = CheckValueType("example")
+	assert.True(t, result, "CheckValueType failed for normal string")
+
+	// 测试空字符串的情况
+	result = CheckValueType("")
+	assert.True(t, result, "CheckValueType failed for empty string")
 }

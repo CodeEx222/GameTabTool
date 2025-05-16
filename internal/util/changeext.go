@@ -140,3 +140,13 @@ func CheckStringType(checkString string, compareStr string) bool {
 	tempString := strings.TrimPrefix(checkString, "##")
 	return strings.Compare(tempString, compareStr) == 0
 }
+
+func CheckValueType(checkString string) bool {
+
+	isType := strings.HasPrefix(checkString, "##")
+	if isType {
+		return false
+	}
+
+	return true
+}
