@@ -3,6 +3,7 @@ package compiler
 import (
 	"gametabtool/internal/model"
 	"gametabtool/internal/report"
+	"sort"
 )
 
 func Compile() (ret error) {
@@ -29,57 +30,39 @@ func Compile() (ret error) {
 		return err
 	}
 
-	//// 测试时, 这个Getter会被提前设置为MemFile, 普通导出时, 这个Getter为空
-	//if globals.TableGetter == nil {
-	//	tabLoader := helper.NewFileLoader(!globals.ParaLoading, globals.CacheDir)
-	//
-	//	if globals.ParaLoading {
-	//		for _, pragma := range globals.IndexList {
-	//			tabLoader.AddFile(pragma.TableFileName)
-	//		}
-	//
-	//		tabLoader.Commit()
-	//	}
-	//
-	//	globals.TableGetter = tabLoader
-	//}
-	//
-	//var kvList, dataList model.DataTableList
-	//
-	//// 加载多种表
-	//err = loadVariantTables(globals, &kvList, &dataList)
-	//
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//report.Log.Debugln("Checking types...")
-	//checker.CheckType(globals.Types)
-	//checker.PreCheck(&dataList)
-	//
-	//if kvList.Count() > 0 {
-	//	report.Log.Debugln("Merge key-value tables...")
-	//
-	//	// 合并所有的KV表行
-	//	var mergedKV model.DataTableList
-	//	MergeData(&kvList, &mergedKV, globals.Types, globals)
-	//
-	//	// 完整KV表转置为普通数据表
-	//	for _, tab := range mergedKV.AllTables() {
-	//
-	//		dataList.AddDataTable(transposeKVtoData(globals.Types, tab))
-	//	}
-	//}
-	//
-	//// KV转置后, 再检查一次
-	//checker.CheckType(globals.Types)
-	//
-	//report.ToolsLog.Debugf("Merge data tables... \n")
-	//
-	//// 合并所有的数据表
-	//MergeData(&dataList, &globals.Datas, globals.Types, globals)
-	//
-	//checker.PostCheck(globals)
+	// 排序 model.GlobalData.IndexDefine 优先把TableType 为空的放在前面
+	// 这样可以保证在加载表的时候, 先加载没有依赖的表
+
+	// 排序 model.GlobalData.IndexDefine 优先把 TableType 为空的放在前面
+	sort.Slice(model.GlobalData.IndexDefine, func(i, j int) bool {
+		return model.GlobalData.IndexDefine[i].TableType == "" && model.GlobalData.IndexDefine[j].TableType != ""
+	})
+
+	// 读取所有要导出的文件, 把所有结构体都加载到内存中
+
+	for _, indexAll := range model.GlobalData.IndexDefine {
+		if indexAll == nil {
+			continue
+		}
+
+		if indexAll.TableFileName == "" {
+			continue
+		}
+
+		report.ToolsLog.Debugf("Loading table file: '%s'... ", indexAll.TableFileName)
+
+		//tabLoader := helper.NewFileLoader(!model.GlobalData.ParaLoading, model.GlobalData.CacheDir)
+		//tabLoader.AddFile(indexAll.TableFileName)
+		//tabLoader.Commit()
+		//
+		//model.GlobalData.TableGetter = tabLoader
+		//
+		//err = LoadTable(model.GlobalData, indexAll)
+		//
+		//if err != nil {
+		//	return err
+		//}
+	}
 
 	return nil
 }
